@@ -1,0 +1,18 @@
+<package>
+  <description brief="Octomap creation with sonar scans">
+  Component to create an octomap with a sonar scan, a priori with a laser-scan like approach
+  </description>
+  <author>Gabriel Alcantara/alcantara@poli.ufrj.br</author>
+  <license></license>
+  <url>http://</url>
+  <logo>http://</logo>
+  <!--
+   To add any dependencies use the depend tag
+  <depend package="dummy-dependency-0" />
+	...
+  <depend package="dummy-dependency-n-1" />
+  <depend package="dummy-dependency-n" />
+  -->
+  <depend package="base/types" />
+  <depend package="slam/octomap" />
+</package>
