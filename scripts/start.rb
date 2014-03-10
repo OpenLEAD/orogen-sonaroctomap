@@ -10,13 +10,13 @@ Orocos.run 'sonaroctomap::Task' => 'sonaroctomap' do
   sonaroctomap = Orocos.name_service.get 'sonaroctomap'
   
   ## Start the tasks ##
-  sonarBeamPort = sonaroctomap.sonarBeamPort.writer
-	
   sonaroctomap.start
 
+  sonarBeamPort = sonaroctomap.sonarBeamPort.writer
+
   sonarBeam = sonarBeamPort.new_sample
-  sonarBeam.speed_of_sound = 1.0
-  sonarBeam_Port.write(sonarBeam)  
+  sonarBeam.speed_of_sound = 2.0
+  sonarBeamPort.write(sonarBeam)  
  
  
 end

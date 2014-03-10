@@ -1,26 +1,24 @@
 /* Generated from orogen/lib/orogen/templates/tasks/Task.cpp */
 
 #include "Task.hpp"
-#include <octomap/math/Pose6D.h>
-#include <octomap/math/Quaternion.h>
-#include <octomap/math/Utils.h>
-#include <octomap/math/Vector3.h>
 #include <octomap/octomap.h>
+#include <iostream>
+#include "sonaroctomap/SonarOcTree.h"
 
 
 
 using namespace sonaroctomap;
 
-Task::Task(std::string const& name)
-    : TaskBase(name)
-	, octree(0)
+Task::Task(std::string const& name,TaskCore::TaskState initial_state)
+    : TaskBase(name, initial_state)
+
 {
 	octree = new octomap::OcTree(0.1);
 }
 
-Task::Task(std::string const& name, RTT::ExecutionEngine* engine)
-    : TaskBase(name, engine)
-	, octree(0)
+Task::Task(std::string const& name, RTT::ExecutionEngine* engine,TaskCore::TaskState initial_state)
+    : TaskBase(name, engine, initial_state)
+
 {
 	octree = new octomap::OcTree(0.1);
 
@@ -54,11 +52,9 @@ void Task::updateHook()
     TaskBase::updateHook();
     base::samples::SonarBeam sonarBeam;
 
-    _sonarBeamPort.readNewst(sonarBeam);
+    _sonarBeamPort.read(sonarBeam);
 
-    if(sonarBeam.speed_of_sound == 1.0){
-    	std::cout << "funfa!"  << std::endl;
-    }
+
 }
 void Task::errorHook()
 {
