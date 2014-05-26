@@ -5,7 +5,7 @@
 
 #include "sonaroctomap/TaskBase.hpp"
 namespace octomap {
-	class OcTree;
+	class SonarOcTree;
 }
 
 namespace sonaroctomap {
@@ -28,7 +28,8 @@ namespace sonaroctomap {
     {
 	friend class TaskBase;
     protected:
-		octomap::OcTree* octree;
+		octomap::SonarOcTree* sonarOcTree;
+		octomap_wrapper::OctomapWrapper* wrapper;
 
 
     public:

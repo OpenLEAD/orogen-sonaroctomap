@@ -1,70 +1,79 @@
 /* Generated from orogen/lib/orogen/templates/tasks/Task.cpp */
 
 #include "Task.hpp"
-#include <octomap/octomap.h>
 #include <iostream>
 #include "sonaroctomap/SonarOcTree.h"
+#include "base/samples/sonar_beam.h"
+#include <base/samples/rigid_body_state.h>
 
-
+#include "octomap_wrapper/OctomapWrapper.hpp"
+#include "octomap_wrapper/conversion.hpp"
 
 using namespace sonaroctomap;
 
-Task::Task(std::string const& name,TaskCore::TaskState initial_state)
-    : TaskBase(name, initial_state)
+Task::Task(std::string const& name, TaskCore::TaskState initial_state) :
+		TaskBase(name, initial_state)
 
 {
-	octree = new octomap::OcTree(0.1);
+	sonarOcTree = new octomap::SonarOcTree(0.1);
+	wrapper = new octomap_wrapper::OctomapWrapper();
 }
 
-Task::Task(std::string const& name, RTT::ExecutionEngine* engine,TaskCore::TaskState initial_state)
-    : TaskBase(name, engine, initial_state)
+Task::Task(std::string const& name, RTT::ExecutionEngine* engine,
+		TaskCore::TaskState initial_state) :
+		TaskBase(name, engine, initial_state)
 
 {
-	octree = new octomap::OcTree(0.1);
+	sonarOcTree = new octomap::SonarOcTree(0.1);
+	wrapper = new octomap_wrapper::OctomapWrapper();
 
 }
 
-Task::~Task()
-{
-	delete octree;
+Task::~Task() {
+	delete sonarOcTree;
 }
-
-
 
 /// The following lines are template definitions for the various state machine
 // hooks defined by Orocos::RTT. See Task.hpp for more detailed
 // documentation about them.
 
-bool Task::configureHook()
-{
-    if (! TaskBase::configureHook())
-        return false;
-    return true;
+bool Task::configureHook() {
+	if (!TaskBase::configureHook())
+		return false;
+	return true;
 }
-bool Task::startHook()
-{
-    if (! TaskBase::startHook())
-        return false;
-    return true;
+bool Task::startHook() {
+	if (!TaskBase::startHook())
+		return false;
+	return true;
 }
-void Task::updateHook()
-{
-    TaskBase::updateHook();
-    base::samples::SonarBeam sonarBeam;
+void Task::updateHook() {
 
-    _sonarBeamPort.read(sonarBeam);
+	//TaskBase::updateHook();
+	base::samples::SonarBeam sonarBeam;
+	base::samples::RigidBodyState sonarState;
 
+	_sonarBeamPort.readNewest(sonarBeam);
+
+	if(sonarBeam.speed_of_sound==1){
+	sonarOcTree->insertBeam(sonarBeam, sonarState);
+
+	octomap::OcTree* tree = sonarOcTree;
+
+	octomap_wrapper::binaryMapToMsg < octomap::OcTree
+			> (*sonarOcTree, *wrapper);
+
+	sonarOcTree->writeBinary("new_tree.bt");
+	_wrapperOutput.write(*wrapper);
+	}
 
 }
-void Task::errorHook()
-{
-    TaskBase::errorHook();
+void Task::errorHook() {
+	TaskBase::errorHook();
 }
-void Task::stopHook()
-{
-    TaskBase::stopHook();
+void Task::stopHook() {
+	TaskBase::stopHook();
 }
-void Task::cleanupHook()
-{
-    TaskBase::cleanupHook();
+void Task::cleanupHook() {
+	TaskBase::cleanupHook();
 }

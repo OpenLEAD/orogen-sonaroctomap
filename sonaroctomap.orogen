@@ -10,12 +10,13 @@ import_types_from "sonaroctomapTypes.hpp"
 # library's pkg-config name) and then the header can be used. Following Rock
 # conventions, a common use-case would be:
 #
-# using_library "sonaroctomap"
-# import_types_from "sonaroctomap/CustomType.hpp"
+using_library "sonaroctomap"
+using_library "octomap_wrapper"
+import_types_from "octomap_wrapper/OctomapWrapper.hpp"
 
 using_library 'base-types'
 import_types_from "base/samples/sonar_beam.h"
-import_types_from "base/samples/sonar_scan.h"
+
 
 using_library 'octomap'
 
@@ -50,7 +51,7 @@ task_context "Task" do
     #
     # Data can be written using _output.write(value). _output.connected() returns
     # if this output is connected to an input or not.
-    #output_port "output", "int"
+    output_port "wrapperOutput", "octomap_wrapper/OctomapWrapper"
 
     # If you want that component's updateHook() to be executed when the "input"
     # port gets data, uncomment this and comment the 'periodic' line
