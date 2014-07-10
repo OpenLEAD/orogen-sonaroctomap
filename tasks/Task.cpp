@@ -15,7 +15,7 @@ Task::Task(std::string const& name, TaskCore::TaskState initial_state) :
 		TaskBase(name, initial_state)
 
 {
-	sonarOcTree = new octomap::SonarOcTree(0.1);
+	sonarOcTree = new octomap::SonarOcTree(0.2);
 	wrapper = new octomap_wrapper::OctomapWrapper();
 }
 
@@ -24,7 +24,7 @@ Task::Task(std::string const& name, RTT::ExecutionEngine* engine,
 		TaskBase(name, engine, initial_state)
 
 {
-	sonarOcTree = new octomap::SonarOcTree(0.1);
+	sonarOcTree = new octomap::SonarOcTree(0.2);
 	wrapper = new octomap_wrapper::OctomapWrapper();
 
 }
@@ -49,22 +49,22 @@ bool Task::startHook() {
 }
 void Task::updateHook() {
 
-	//TaskBase::updateHook();
 	base::samples::SonarBeam sonarBeam;
 	base::samples::RigidBodyState sonarState;
 
 	_sonarBeamPort.readNewest(sonarBeam);
 
-	if(sonarBeam.speed_of_sound==1){
-	sonarOcTree->insertBeam(sonarBeam, sonarState);
+	if (sonarBeam.time.microseconds != 0) {
+		sonarOcTree->insertBeam(sonarBeam, sonarState);
 
-	octomap::OcTree* tree = sonarOcTree;
+		octomap::OcTree* tree = sonarOcTree;
 
-	octomap_wrapper::binaryMapToMsg < octomap::OcTree
-			> (*sonarOcTree, *wrapper);
+		//octomap_wrapper::fullMapToMsg < octomap::OcTree
+		//		> (*sonarOcTree, *wrapper);
+		octomap_wrapper::binaryMapToMsg < octomap::OcTree
+				> (*sonarOcTree, *wrapper);
 
-	sonarOcTree->writeBinary("new_tree.bt");
-	_wrapperOutput.write(*wrapper);
+		_wrapperOutput.write(*wrapper);
 	}
 
 }

@@ -19,10 +19,17 @@ Orocos.run 'sonar_tritech::Micron' => 'sonar_tritech',
   # If you have the choice, connect before the component is
   # even configured
   sonar_tritech.sonar_beam.connect_to sonaroctomap.sonarBeamPort
+  sonar_tritech.port = "/dev/ttyUSB0" 
   sonar_tritech.configure
   sonar_tritech.start
-  
   sonaroctomap.start
+
+  #Enable Logging
+  Orocos.log_all
+  Orocos.watch(sonar_tritech)
+
+  
+
   
   Readline::readline("Press ENTER to exit\n") do
   end 

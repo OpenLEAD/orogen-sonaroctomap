@@ -22,14 +22,15 @@ Orocos.run 'sonaroctomap::Task' => 'sonaroctomap' do
   sonarBeam.beamwidth_vertical = 0.610865238
   sonarBeam.beamwidth_horizontal = 0.052359878
   #std::vector < uint8_t > bins(10)
-  sonarBeam.beam = [1,2,3,4,5,6,7,8,9,10]
+  sonarBeam.beam = [15,25,35,45,55,65,75,85,95,100]
 
   sonaroctomap.start
   while true
-    sonarBeamPort.write(sonarBeam)  
-   sleep 1.0
+    sonarBeamPort.write(sonarBeam) 
+    sonarBeam.bearing.rad =  sonarBeam.bearing.rad + 5*0.0174532925
+   sleep 0.1
   end
-  sonarBeamPort.write(sonarBeam)  
+  
   
  
 end
