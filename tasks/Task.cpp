@@ -2,12 +2,12 @@
 
 #include "Task.hpp"
 #include <iostream>
-#include "sonaroctomap/SonarOcTree.h"
-#include "base/samples/sonar_beam.h"
-#include <base/samples/rigid_body_state.h>
+#include <sonaroctomap/SonarOcTree.hpp>
+#include <base/samples/SonarBeam.hpp>
+#include <base/samples/RigidBodyState.hpp>
 
-#include "octomap_wrapper/OctomapWrapper.hpp"
-#include "octomap_wrapper/conversion.hpp"
+#include <octomap_wrapper/OctomapWrapper.hpp>
+#include <octomap_wrapper/Conversion.hpp>
 
 using namespace sonaroctomap;
 
