@@ -14,7 +14,7 @@
   <depend package="dummy-dependency-n" />
   -->
   <depend package="base/types" />
-  <depend package="slam/sonaroctomap" />
+  <depend package="slam/sonar_octomap" />
   <depend package="slam/octomap" />
   <depend package="slam/octomap_wrapper" />
 	
