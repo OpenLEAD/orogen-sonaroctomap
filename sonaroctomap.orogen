@@ -14,10 +14,7 @@ using_library "sonaroctomap"
 using_library "octomap_wrapper"
 import_types_from "octomap_wrapper/OctomapWrapper.hpp"
 
-using_library 'base-types'
-import_types_from "base/samples/sonar_beam.h"
-
-
+import_types_from 'base'
 using_library 'octomap'
 
 # If this project uses data types that are defined in other oroGen projects,
