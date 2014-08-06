@@ -57,12 +57,10 @@ void Task::updateHook() {
 	if (sonarBeam.time.microseconds != 0) {
 		sonarOcTree->insertBeam(sonarBeam, sonarState);
 
-		octomap::OcTree* tree = sonarOcTree;
+		octomap::OcTree* tree = dynamic_cast<octomap::OcTree*>(sonarOcTree);
 
-		//octomap_wrapper::fullMapToMsg < octomap::OcTree
-		//		> (*sonarOcTree, *wrapper);
-		octomap_wrapper::binaryMapToMsg < octomap::OcTree
-				> (*sonarOcTree, *wrapper);
+		octomap_wrapper::fullMapToMsg(*tree, *wrapper);
+		//octomap_wrapper::binaryMapToMsg(*tree, *wrapper);
 
 		_wrapperOutput.write(*wrapper);
 	}
