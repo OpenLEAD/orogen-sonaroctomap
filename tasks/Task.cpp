@@ -51,12 +51,12 @@ void Task::updateHook() {
 
 	base::samples::SonarBeam sonarBeam;
 	base::samples::RigidBodyState sonarState;
-
 	_sonarBeamPort.readNewest(sonarBeam);
 
 	if (sonarBeam.time.microseconds != 0) {
+		sonarState.initUnknown();
 // 		sonarOcTree->insertBeam(sonarBeam, sonarState);
-
+		
 		sonarOcTree->insertRealBeam(sonarBeam, sonarState);
 		octomap::OcTree* tree = dynamic_cast<octomap::OcTree*>(sonarOcTree);
 
